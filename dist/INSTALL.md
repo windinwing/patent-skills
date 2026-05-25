@@ -261,7 +261,7 @@ python3 main.py search "lithium battery"
 A: Point `extraDirs` at **`dist`**, not the repository root.
 
 **Q: Should I install from `patent-search/` dev tree?**  
-A: Use **`dist/patent-search`** for distribution; dev tree includes debug utilities.
+A: Prefer **`dist/patent-search`** for distribution and ClawHub publish.
 
 **Q: Will tokens be committed?**  
 A: No. `config.json` and `.env` are gitignored.
