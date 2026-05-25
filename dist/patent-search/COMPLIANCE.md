@@ -6,8 +6,6 @@
 
 **SKILL.md 与 Unicode**：仓库内该文件以 UTF-8（NFC）保存；维护时避免粘贴自富文本来源的零宽字符与双向文本控制符。发布前可用 `od -c` 或编辑器「显示不可见字符」复核。
 
-**调试脚本**：`debug_api_response.py` 仅用于本地排障；其对请求参数中的 `t`（token）已脱敏后打印，仍请勿将完整控制台输出公开发布。
-
 ---
 
 ## 中文
@@ -28,7 +26,7 @@
 
 ### 3. 环境变量与宿主注入
 
-在 OpenClaw 运行时，宿主可能注入 `OPENCLAW_SKILL_NAME`、`OPENCLAW_SKILL_METADATA`、`OPENCLAW_SKILL_CONFIG` 等变量。本技能**不因诊断目的在标准路径下打印这些变量的明文内容**；维护脚本 `check_env.py` 仅报告「是否设置」及非敏感摘要（如 JSON 键名），避免密钥泄露到日志。
+在 OpenClaw 运行时，宿主可能注入 `OPENCLAW_SKILL_NAME`、`OPENCLAW_SKILL_METADATA`、`OPENCLAW_SKILL_CONFIG` 等变量。本技能**不因诊断目的在标准路径下打印这些变量的明文内容**。
 
 ### 4. 仓库与发布物要求（发布者承诺）
 
@@ -66,7 +64,7 @@
 
 ### 3. Environment variables
 
-The skill does not echo secret values from `OPENCLAW_*` / `PATENT_*` in normal operation. The optional `check_env.py` reports presence only and redacts sensitive payloads (e.g., JSON key names for metadata, no token substrings).
+The skill does not echo secret values from `OPENCLAW_*` / `PATENT_*` in normal operation.
 
 ### 4. Publisher commitments
 

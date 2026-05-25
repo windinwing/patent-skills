@@ -150,7 +150,7 @@ python3 main.py search 锂电池
 A: 不要把 `extraDirs` 指到仓库根目录；应指向 **`dist`**，或只复制 `dist` 下的子目录。
 
 **Q: 能否用 `patent-search/` 开发目录安装？**  
-A: 可以调试，但含 `test_api.py` 等脚本，**对外分发请用 `dist/`**。
+A: 开发与 `dist/` 源码一致时可直接用开发目录；**对外分发与 ClawHub 请用 `dist/patent-search/`**。
 
 **Q: Token 会进 Git 吗？**  
 A: 不会。`config.json` 与 `.env` 已在 `.gitignore` 中忽略。

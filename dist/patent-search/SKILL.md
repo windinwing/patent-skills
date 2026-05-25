@@ -1,7 +1,7 @@
 ---
 name: patent-search
 description: Patent search and analytics via 9235 API (search, detail, claims, company portrait, Excel export).
-version: 1.0.0
+version: 1.0.10
 metadata:
   openclaw:
     emoji: "📜"
@@ -485,9 +485,10 @@ python3 main.py <命令> <参数>
 
 ## 更新日志
 
+- **v1.0.10**: 精简核心（移除 trend/analysis/test 等 8 个开发脚本）；Excel 导出（`excel_export.py`）；完善凭证说明与文档。
 - v1.0.0: 初始版本，支持基本搜索和详情查看
-- v1.1.0: 增加企业画像、引用分析、相似专利功能
-- v1.2.0: 增加文件下载、批量处理功能
+
+详见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 技术支持
 

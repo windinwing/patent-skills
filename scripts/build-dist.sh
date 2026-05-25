@@ -29,7 +29,7 @@ copy_skill() {
 copy_skill patent-search \
   main.py patent_api.py patent_skill.py patent_token.py \
   excel_export.py export_deps.py \
-  config.example.json SKILL.md README.md COMPLIANCE.md
+  config.example.json SKILL.md README.md CHANGELOG.md COMPLIANCE.md
 
 # --- patent-transaction ---
 copy_skill patent-transaction \
