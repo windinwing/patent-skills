@@ -11,7 +11,9 @@ ClawHub **仅支持 MIT-0**（MIT No Attribution）。仓库根目录 [LICENSE](
 ### 发布前检查清单
 
 - [ ] 已登录 ClawHub（GitHub 账号注册 **满 1 周** 才能发布）
-- [ ] 在发布页 **勾选**「I have the rights…」并 **Accept MIT-0 license terms**
+- [ ] 在发布页 **勾选**（两项通常在同一区域，缺一不可）：
+  - *I have the rights to this skill and agree to publish it under MIT-0.*
+  - 接受说明：**MIT-0 · MIT No Attribution** — 可自由使用、修改、再分发，**无需署名**；ClawHub 不支持付费/定价技能。
 - [ ] 上传目录为 **`dist/patent-search`**（或 transaction / disclosure），**不是** 整个 monorepo 根目录
 - [ ] 该目录根下有 **`SKILL.md`**（小写 `skill.md` 也可）
 - [ ] 未包含 `config.json`、真实 token、`.env`
@@ -66,7 +68,8 @@ clawhub skill publish ./dist/patent-disclosure --slug patent-disclosure --versio
 
 | 现象 | 处理 |
 |------|------|
-| 要求 Accept MIT-0 | 在网页 **勾选同意**；仓库 LICENSE 须为 MIT-0（已更新） |
+| 要求 Accept MIT-0 | 在网页 **勾选**「I have the rights… publish under MIT-0」；仅改仓库文件不够，**必须在发布页点同意** |
+| 同意框已勾仍无法提交 | 换浏览器、关广告拦截；确认已选文件夹且 slug 合法（小写 `patent-search`） |
 | 找不到 SKILL.md | 路径必须是 **`dist/技能名/`**，不是仓库根 |
 | GitHub 账号太新 | 账号需满 **7 天** 才能发布 |
 | 元数据校验失败 | `install.kind` 仅支持 `brew` / `node` / `go` / `uv`，**不要用 `pip`**（已改为 `uv`） |
