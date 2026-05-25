@@ -1,0 +1,49 @@
+# --- 密钥与本地配置（切勿提交）---
+**/config.json
+.env
+.env.*
+!.env.example
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+.eggs/
+dist-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# --- 系统与编辑器 ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# --- 运行时产物 ---
+**/downloads/
+**/.exports/
+**/uploads/
+*.log
+/tmp/
+
+# 交底书 / 导出临时文件（模板为 .md，可提交）
+*.docx
+*.xlsx
+!**/template.md
+
+# --- 可选：本地 Cursor ---
+.cursor/
+
+# 注意：dist/ 为 GitHub / ClawHub 安装用纯净包，应提交到仓库（勿忽略）
