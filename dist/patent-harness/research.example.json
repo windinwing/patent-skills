@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "steps": [
+    {"id": "search", "tool": "patent_search", "arguments": {"query": "锂电池", "page_size": 5, "sort": "!documentDate"}},
+    {"id": "detail", "tool": "patent_detail", "arguments": {"patent_id": {"$ref": "search#/patents/0/id"}}},
+    {"id": "claims", "tool": "patent_claims", "arguments": {"patent_id": {"$ref": "search#/patents/0/id"}}},
+    {"id": "trend", "tool": "patent_analysis", "arguments": {"query": "锂电池", "dimension": "applicationYear"}},
+    {"id": "applicants", "tool": "patent_analysis", "arguments": {"query": "锂电池", "dimension": "applicant"}}
+  ]
+}

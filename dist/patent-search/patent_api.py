@@ -397,38 +397,55 @@ def format_description_text(text: Any, max_chars: int = 12000) -> str:
     return result
 
 
+def load_patent_skill_config() -> Dict[str, Any]:
+    """读取技能目录 config.json（若存在）。"""
+    config_path = Path(__file__).parent / "config.json"
+    if not config_path.exists():
+        return {}
+    try:
+        with open(config_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data if isinstance(data, dict) else {}
+    except Exception:
+        return {}
+
+
+
 class PatentAPI:
     """专利API客户端"""
     
-    def __init__(self, token: Optional[str] = None, base_url: str = "https://www.9235.net/api"):
+    def __init__(
+        self,
+        token: Optional[str] = None,
+        base_url: str = "https://www.9235.net/api",
+        *,
+        config: Optional[Dict[str, Any]] = None,
+    ):
         """
         初始化API客户端
         
         Args:
             token: API Token，如果为None则尝试从环境变量或配置文件读取
             base_url: API基础URL
+            config: 可选，覆盖 config.json
         """
+        cfg = dict(config or load_patent_skill_config())
         self.base_url = base_url.rstrip('/')
-        
+        self.transport = str(os.environ.get("PATENT_TRANSPORT") or cfg.get("transport") or "rest").strip().lower()
+        if self.transport not in ("rest", "mcp"):
+            raise ValueError("PATENT_TRANSPORT 必须是 rest 或 mcp")
+        self.mcp_endpoint = str(os.environ.get("PATENT_MCP_URL") or cfg.get("mcp_url") or "https://www.9235.net/api/mcp").strip()
+        self._mcp_client = None
+
         # 获取token的优先级: 参数 > 环境变量 > 配置文件
         self.token = token
         if not self.token:
             self.token = (
                 os.environ.get("PATENT_API_TOKEN")
                 or os.environ.get("MCHAT_SKILL_PATENT_SEARCH_PATENT_API_TOKEN")
+                or cfg.get("token")
             )
-        
-        if not self.token:
-            # 尝试从配置文件读取
-            config_path = Path(__file__).parent / 'config.json'
-            if config_path.exists():
-                try:
-                    with open(config_path, 'r', encoding='utf-8') as f:
-                        config = json.load(f)
-                        self.token = config.get('token')
-                except:
-                    pass
-        
+
         if not self.token:
             raise ValueError("未找到API Token，请设置环境变量 PATENT_API_TOKEN 或创建配置文件")
 
@@ -447,6 +464,12 @@ class PatentAPI:
         if params is None:
             params = {}
         
+        if self.transport == "mcp":
+            from patent_mcp import PatentMcpClient, call_legacy_api
+            if self._mcp_client is None:
+                self._mcp_client = PatentMcpClient(self.token, self.mcp_endpoint)
+            return call_legacy_api(self._mcp_client, endpoint, dict(params), method)
+
         # 添加token和版本号
         params['t'] = self.token
         params['v'] = 1
@@ -507,8 +530,11 @@ class PatentAPI:
             "q": query,
             "p": page,
             "ps": page_size,
-            "sort": sort
         }
+        # 9235 检索接口排序参数为 s（见 SearchApiController）
+        api_sort = (sort or "").strip()
+        if api_sort:
+            params["s"] = api_sort
         return self._make_request("/s", params)
     
     def format_search_result(
@@ -691,6 +717,19 @@ class PatentAPI:
         
         return self._make_request("/patent/like", params)
     
+    def get_patent_family(self, patent_id: str) -> Dict[str, Any]:
+        """
+        获取专利同族（简单同族，与网站同族页一致，基于 globalpat_family 索引）
+
+        Args:
+            patent_id: 专利公开号 / UDN
+
+        Returns:
+            patentFamilyList、familyType、total 等
+        """
+        params = {"id": patent_id}
+        return self._make_request("/patent/family", params)
+
     def get_analysis(self, query: str, dimension: str, data_scope: str = "cn") -> Dict[str, Any]:
         """
         获取统计分析

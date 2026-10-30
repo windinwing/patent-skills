@@ -27,7 +27,7 @@ copy_skill() {
 
 # --- patent-search：仅运行时与文档 ---
 copy_skill patent-search \
-  main.py patent_api.py patent_skill.py patent_token.py \
+  main.py patent_api.py patent_mcp.py patent_skill.py patent_token.py \
   excel_export.py export_deps.py \
   config.example.json SKILL.md README.md CHANGELOG.md COMPLIANCE.md
 
@@ -41,6 +41,10 @@ copy_skill patent-disclosure \
   main.py docx_export.py export_deps.py \
   template.md checklist.md requirements.txt \
   SKILL.md README.md
+
+# --- patent-harness: standalone CLI package, including its MCP transport ---
+copy_skill patent-harness harness.py research.example.json README.md
+cp "$ROOT/patent-search/patent_mcp.py" "$DST/patent-harness/patent_mcp.py"
 
 cp "$ROOT/README.clawhub.md" "$DST/README.md"
 cp "$ROOT/INSTALL.md" "$DST/INSTALL.md"

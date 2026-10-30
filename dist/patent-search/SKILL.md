@@ -1,7 +1,7 @@
 ---
 name: patent-search
 description: Patent search and analytics via 9235 API (search, detail, claims, company portrait, Excel export).
-version: 1.0.10
+version: 1.1.0
 metadata:
   openclaw:
     emoji: "📜"
@@ -19,6 +19,12 @@ metadata:
       - name: PATENT_API_BASE_URL
         required: false
         description: Optional API base URL (default https://www.9235.net/api)
+      - name: PATENT_TRANSPORT
+        required: false
+        description: Set mcp to use the remote MCP server; rest preserves legacy behavior.
+      - name: PATENT_MCP_URL
+        required: false
+        description: Remote MCP URL (default https://www.9235.net/api/mcp), no credentials in URL.
     install:
       - kind: uv
         package: requests
@@ -34,6 +40,12 @@ metadata:
 | **English** | [9235](https://www.9235.net/api) patent API client: search, detail, claims, description, legal events, citations, similar patents, **company portrait**, analytics, Excel export; scopes `cn`, `all`, `us`, `jp`, `kr`, `tw`, `wo`, `ep`. |
 
 **凭证 Credentials**: `PATENT_API_TOKEN` 或 OpenClaw `skills.entries.patent-search.apiKey` · 申请 <https://www.9235.net/api/open>
+
+**远程 MCP / mchat 工作流**：设置 `PATENT_TRANSPORT=mcp`，继续使用同一个 `PATENT_API_TOKEN`。
+可选 `PATENT_MCP_URL=https://www.9235.net/api/mcp`。mchat 在 `patent-search` 的配置 / Secrets 中填写同名字段即可，现有检索、分析、导出节点无需改参数。
+MCP 支持 search、detail、claims、description、legal、citing、similar、family、analysis、company；export / export_analysis 复用检索和统计工具。
+图片/PDF 的二进制下载仍走原下载地址。商标、著作权暂需显式使用 REST 模式。
+每次工具执行沿用原 API 配额；超时或错误不要自动改用 REST 重发，以免重复计次。鉴权和工具发现不扣检索次数。
 
 用户可说：「检索大疆无人机专利」「全球检索锂电池」「华为技术有限公司企业画像」「导出当前检索 Excel」。
 
